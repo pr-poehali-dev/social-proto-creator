@@ -7,7 +7,7 @@ import {
   NavigationMenuLink 
 } from "@/components/ui/navigation-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, MessageCircle, Home } from "lucide-react";
+import { Bell, Search, MessageCircle, Home, Heart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +34,15 @@ const Header = () => {
                   "flex h-9 w-9 items-center justify-center rounded-full bg-accent hover:bg-accent/80"
                 )}>
                   <Home className="h-5 w-5" />
+                </div>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/dating">
+                <div className={cn(
+                  "flex h-9 w-9 items-center justify-center rounded-full bg-accent hover:bg-accent/80"
+                )}>
+                  <Heart className="h-5 w-5" />
                 </div>
               </Link>
             </NavigationMenuItem>
