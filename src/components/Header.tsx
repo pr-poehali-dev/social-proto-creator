@@ -1,79 +1,57 @@
-
+import React from "react";
 import { Link } from "react-router-dom";
-import { 
-  NavigationMenu, 
-  NavigationMenuList, 
-  NavigationMenuItem, 
-  NavigationMenuLink 
-} from "@/components/ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, MessageCircle, Home, Heart } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { Home, User, MessageSquare, Heart, Star } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Link to="/" className="font-bold text-xl text-primary">Космос</Link>
-          <div className="relative w-64 hidden md:block">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Поиск..."
-              className="pl-8 w-full"
-            />
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3">
+        <nav className="flex items-center justify-between">
+          <Link to="/" className="text-xl font-bold text-primary">
+            Космос
+          </Link>
+          
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/" className="flex items-center space-x-1 text-gray-600 hover:text-primary transition-colors">
+              <Home size={18} />
+              <span>Главная</span>
+            </Link>
+            <Link to="/profile" className="flex items-center space-x-1 text-gray-600 hover:text-primary transition-colors">
+              <User size={18} />
+              <span>Профиль</span>
+            </Link>
+            <Link to="/messages" className="flex items-center space-x-1 text-gray-600 hover:text-primary transition-colors">
+              <MessageSquare size={18} />
+              <span>Сообщения</span>
+            </Link>
+            <Link to="/dating" className="flex items-center space-x-1 text-gray-600 hover:text-primary transition-colors">
+              <Heart size={18} />
+              <span>Знакомства</span>
+            </Link>
+            <Link to="/pastel-profile" className="flex items-center space-x-1 text-pastel-pink font-medium">
+              <Star size={18} />
+              <span>Пастельный профиль</span>
+            </Link>
           </div>
-        </div>
-        
-        <NavigationMenu>
-          <NavigationMenuList className="gap-2">
-            <NavigationMenuItem>
-              <Link to="/">
-                <div className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-full bg-accent hover:bg-accent/80"
-                )}>
-                  <Home className="h-5 w-5" />
-                </div>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link to="/dating">
-                <div className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-full bg-accent hover:bg-accent/80"
-                )}>
-                  <Heart className="h-5 w-5" />
-                </div>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link to="/messages">
-                <div className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-full bg-accent hover:bg-accent/80 relative"
-                )}>
-                  <MessageCircle className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-white">3</span>
-                </div>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <div className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-full bg-accent hover:bg-accent/80 relative"
-              )}>
-                <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-white">5</span>
-              </div>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link to="/profile">
-                <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-all">
-                  <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80" alt="Космонавт" />
-                  <AvatarFallback>КЮ</AvatarFallback>
-                </Avatar>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+          
+          <div className="md:hidden flex items-center space-x-4">
+            <Link to="/" className="text-gray-600">
+              <Home size={20} />
+            </Link>
+            <Link to="/profile" className="text-gray-600">
+              <User size={20} />
+            </Link>
+            <Link to="/messages" className="text-gray-600">
+              <MessageSquare size={20} />
+            </Link>
+            <Link to="/dating" className="text-gray-600">
+              <Heart size={20} />
+            </Link>
+            <Link to="/pastel-profile" className="text-pastel-pink">
+              <Star size={20} />
+            </Link>
+          </div>
+        </nav>
       </div>
     </header>
   );

@@ -99,3 +99,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+.pastel-card {
+  @apply rounded-3xl shadow-md overflow-hidden;
+  position: relative;
+}
+
+.pastel-card::before {
+  content: '';
+  @apply absolute inset-0 rounded-3xl;
+  background: linear-gradient(to bottom right, #FFF8E7, #FFD1DC);
+  z-index: -1;
+}
+
+.pastel-badge {
+  @apply rounded-full text-sm px-3 py-1 font-medium;
+  background: linear-gradient(to right, #FFD1DC, #F5E6CA);
+}
+
+.pastel-button {
+  @apply rounded-full px-5 py-2 font-medium transition-transform transform hover:scale-105;
+  background: linear-gradient(to right, #FFD1DC, #F5E6CA);
+}
+
+.star-shape {
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+}
+
+.zodiac-shape {
+  clip-path: circle(50% at 50% 50%);
+}
+
+.round-img {
+  @apply rounded-3xl overflow-hidden;
+}
+
+.bubble-img {
+  clip-path: circle(50% at 50% 50%);
+}
