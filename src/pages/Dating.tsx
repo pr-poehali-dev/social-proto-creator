@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, X, Star, MessageCircle, Coffee, Music, Camera, Plane } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface DatingProfile {
   id: number;
@@ -63,16 +62,23 @@ const profiles: DatingProfile[] = [
 const Dating = () => {
   const [currentProfiles, setCurrentProfiles] = useState<DatingProfile[]>(profiles);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
   
   const handleSwipe = (direction: "left" | "right", id: number) => {
     const action = direction === "right" ? "лайкнули" : "пропустили";
     console.log(`Вы ${action} профиль #${id}`);
     
-    setCurrentProfiles((prevProfiles) => 
-      prevProfiles.filter(profile => profile.id !== id)
-    );
+    setSwipeDirection(direction);
     
-    setCurrentImageIndex(0);
+    // Добавляем небольшую задержку перед удалением профиля для анимации
+    setTimeout(() => {
+      setCurrentProfiles((prevProfiles) => 
+        prevProfiles.filter(profile => profile.id !== id)
+      );
+      
+      setCurrentImageIndex(0);
+      setSwipeDirection(null);
+    }, 300);
   };
   
   const handleNextImage = (e: React.MouseEvent, profileId: number) => {
@@ -103,80 +109,75 @@ const Dating = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Космические знакомства</h1>
         
         <div className="h-[70vh] relative">
-          <AnimatePresence>
-            {currentProfiles.length > 0 ? (
-              <motion.div
-                key={currentProfiles[0].id}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ 
-                  x: 300, 
-                  opacity: 0,
-                  transition: { duration: 0.2 } 
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="absolute inset-0"
-              >
-                <Card className="h-full overflow-hidden">
-                  <div className="relative h-3/5 bg-black" onClick={(e) => handleNextImage(e, currentProfiles[0].id)}>
-                    <img 
-                      src={currentProfiles[0].images[currentImageIndex]} 
-                      alt={currentProfiles[0].name}
-                      className="w-full h-full object-cover"
-                    />
-                    
-                    <div className="absolute top-2 left-0 right-0 flex justify-center gap-1">
-                      {currentProfiles[0].images.map((_, idx) => (
-                        <div 
-                          key={idx} 
-                          className={`h-1 rounded-full bg-white/70 ${idx === currentImageIndex ? 'w-6' : 'w-3 opacity-60'}`}
-                        />
-                      ))}
-                    </div>
-                    
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
-                      <div className="flex items-center gap-2">
-                        <h2 className="text-2xl font-bold">{currentProfiles[0].name}, {currentProfiles[0].age}</h2>
-                      </div>
-                      <div className="text-sm opacity-90">{currentProfiles[0].occupation}</div>
-                      <div className="text-xs opacity-75">{currentProfiles[0].distance}</div>
-                    </div>
+          {currentProfiles.length > 0 ? (
+            <div
+              className={`absolute inset-0 transition-transform duration-300 ${
+                swipeDirection === "left" 
+                  ? "-translate-x-full opacity-0" 
+                  : swipeDirection === "right" 
+                  ? "translate-x-full opacity-0" 
+                  : ""
+              }`}
+            >
+              <Card className="h-full overflow-hidden shadow-lg">
+                <div className="relative h-3/5 bg-black" onClick={(e) => handleNextImage(e, currentProfiles[0].id)}>
+                  <img 
+                    src={currentProfiles[0].images[currentImageIndex]} 
+                    alt={currentProfiles[0].name}
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  <div className="absolute top-2 left-0 right-0 flex justify-center gap-1">
+                    {currentProfiles[0].images.map((_, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`h-1 rounded-full bg-white/70 ${idx === currentImageIndex ? 'w-6' : 'w-3 opacity-60'}`}
+                      />
+                    ))}
                   </div>
                   
-                  <CardContent className="h-2/5 p-4 flex flex-col overflow-y-auto">
-                    <p className="text-sm mb-3">{currentProfiles[0].bio}</p>
-                    
-                    <div className="mb-3">
-                      <h3 className="text-xs font-medium text-muted-foreground mb-2">Интересы</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {currentProfiles[0].interests.map((interest, idx) => (
-                          <Badge key={idx} variant="secondary" className="flex items-center gap-1">
-                            {getInterestIcon(interest)}
-                            {interest}
-                          </Badge>
-                        ))}
-                      </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-2xl font-bold">{currentProfiles[0].name}, {currentProfiles[0].age}</h2>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ) : (
-              <div className="h-full flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">🛸</div>
-                  <h2 className="text-xl font-semibold">Профили закончились</h2>
-                  <p className="text-muted-foreground mt-2">Загляните позже, скоро появятся новые</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-6"
-                    onClick={() => setCurrentProfiles(profiles)}
-                  >
-                    Начать заново
-                  </Button>
+                    <div className="text-sm opacity-90">{currentProfiles[0].occupation}</div>
+                    <div className="text-xs opacity-75">{currentProfiles[0].distance}</div>
+                  </div>
                 </div>
+                
+                <CardContent className="h-2/5 p-4 flex flex-col overflow-y-auto">
+                  <p className="text-sm mb-3">{currentProfiles[0].bio}</p>
+                  
+                  <div className="mb-3">
+                    <h3 className="text-xs font-medium text-muted-foreground mb-2">Интересы</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {currentProfiles[0].interests.map((interest, idx) => (
+                        <Badge key={idx} variant="secondary" className="flex items-center gap-1">
+                          {getInterestIcon(interest)}
+                          {interest}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">🛸</div>
+                <h2 className="text-xl font-semibold">Профили закончились</h2>
+                <p className="text-muted-foreground mt-2">Загляните позже, скоро появятся новые</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-6"
+                  onClick={() => setCurrentProfiles(profiles)}
+                >
+                  Начать заново
+                </Button>
               </div>
-            )}
-          </AnimatePresence>
+            </div>
+          )}
         </div>
         
         {currentProfiles.length > 0 && (
@@ -184,7 +185,7 @@ const Dating = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="rounded-full h-14 w-14 p-0 border-red-200 hover:border-red-300 hover:bg-red-50"
+              className="rounded-full h-14 w-14 p-0 border-red-200 hover:border-red-300 hover:bg-red-50 transition-colors duration-200"
               onClick={() => handleSwipe("left", currentProfiles[0].id)}
             >
               <X className="h-6 w-6 text-red-500" />
@@ -193,7 +194,7 @@ const Dating = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="rounded-full h-14 w-14 p-0 border-amber-200 hover:border-amber-300 hover:bg-amber-50"
+              className="rounded-full h-14 w-14 p-0 border-amber-200 hover:border-amber-300 hover:bg-amber-50 transition-colors duration-200"
             >
               <Star className="h-6 w-6 text-amber-400" />
             </Button>
@@ -201,7 +202,7 @@ const Dating = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="rounded-full h-14 w-14 p-0 border-green-200 hover:border-green-300 hover:bg-green-50"
+              className="rounded-full h-14 w-14 p-0 border-green-200 hover:border-green-300 hover:bg-green-50 transition-colors duration-200"
               onClick={() => handleSwipe("right", currentProfiles[0].id)}
             >
               <Heart className="h-6 w-6 text-green-500" />
