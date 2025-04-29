@@ -1,12 +1,52 @@
 
+import { useState } from "react";
 import Header from "@/components/Header";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Send, Search, Phone, Video, Info } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { ChatList } from "@/components/chat/ChatList";
+import { ChatHeader } from "@/components/chat/ChatHeader"; 
+import { MessageList } from "@/components/chat/MessageList";
+import { MessageInput } from "@/components/chat/MessageInput";
+import { ChatData, Message } from "@/types/chat";
 
 const Messages = () => {
+  const [activeChat, setActiveChat] = useState(1);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      text: "Привет! Как дела с разработкой нашего проекта?",
+      time: "10:30",
+      type: "incoming"
+    },
+    {
+      text: "Всё идёт по плану! Сейчас работаю над интерфейсом сообщений.",
+      time: "10:45",
+      type: "outgoing"
+    },
+    {
+      text: "Супер! Очень ждём результатов. 🚀",
+      time: "11:01",
+      type: "incoming"
+    },
+    {
+      text: "Скоро будет готово! Хочешь, покажу демо версию?",
+      time: "11:03",
+      type: "outgoing"
+    }
+  ]);
+  
+  const handleSendMessage = (text: string) => {
+    const newMessage: Message = {
+      text,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      type: "outgoing"
+    };
+    
+    setMessages([...messages, newMessage]);
+  };
+  
+  const getCurrentChat = () => {
+    return chats.find(chat => chat.id === activeChat) || chats[0];
+  };
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -15,133 +55,18 @@ const Messages = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 h-full">
             {/* Список чатов */}
             <div className="border-r">
-              <div className="p-4">
-                <div className="relative mb-4">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Поиск сообщений..."
-                    className="pl-8 w-full"
-                  />
-                </div>
-                
-                <div className="space-y-1">
-                  {chats.map((chat) => (
-                    <div 
-                      key={chat.id}
-                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer ${chat.id === 1 ? 'bg-accent' : 'hover:bg-muted'}`}
-                    >
-                      <div className="relative">
-                        <img 
-                          src={chat.avatar} 
-                          alt={chat.name} 
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                        {chat.online && (
-                          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></span>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between">
-                          <div className="font-medium truncate">{chat.name}</div>
-                          <div className="text-xs text-muted-foreground">{chat.time}</div>
-                        </div>
-                        <div className="text-sm text-muted-foreground truncate">
-                          {chat.lastMessage}
-                        </div>
-                      </div>
-                      {chat.unread > 0 && (
-                        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-white">
-                          {chat.unread}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ChatList 
+                chats={chats} 
+                activeChat={activeChat}
+                onChatSelect={setActiveChat}
+              />
             </div>
             
             {/* Окно чата */}
             <div className="col-span-2 flex flex-col h-full">
-              {/* Заголовок чата */}
-              <div className="p-4 border-b flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <img 
-                    src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
-                    alt="Николай Тихонов" 
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <div className="font-medium">Николай Тихонов</div>
-                    <div className="text-xs text-green-500">В сети</div>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button size="icon" variant="ghost">
-                    <Phone className="h-5 w-5" />
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <Video className="h-5 w-5" />
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <Info className="h-5 w-5" />
-                  </Button>
-                </div>
-              </div>
-              
-              {/* Сообщения */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                <div className="flex justify-center">
-                  <div className="text-xs bg-muted rounded-full px-3 py-1 text-muted-foreground">
-                    Сегодня
-                  </div>
-                </div>
-                
-                <div className="flex justify-start">
-                  <div className="bg-accent rounded-2xl rounded-tl-sm p-3 max-w-[80%]">
-                    <p>Привет! Как дела с разработкой нашего проекта?</p>
-                    <div className="text-xs text-muted-foreground mt-1 text-right">
-                      10:30
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex justify-end">
-                  <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-sm p-3 max-w-[80%]">
-                    <p>Всё идёт по плану! Сейчас работаю над интерфейсом сообщений.</p>
-                    <div className="text-xs mt-1 text-right opacity-80">
-                      10:45
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex justify-start">
-                  <div className="bg-accent rounded-2xl rounded-tl-sm p-3 max-w-[80%]">
-                    <p>Супер! Очень ждём результатов. 🚀</p>
-                    <div className="text-xs text-muted-foreground mt-1 text-right">
-                      11:01
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex justify-end">
-                  <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-sm p-3 max-w-[80%]">
-                    <p>Скоро будет готово! Хочешь, покажу демо версию?</p>
-                    <div className="text-xs mt-1 text-right opacity-80">
-                      11:03
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Ввод сообщения */}
-              <div className="p-4 border-t">
-                <div className="flex gap-2">
-                  <Input placeholder="Написать сообщение..." className="flex-1" />
-                  <Button size="icon">
-                    <Send className="h-5 w-5" />
-                  </Button>
-                </div>
-              </div>
+              <ChatHeader chat={getCurrentChat()} />
+              <MessageList messages={messages} />
+              <MessageInput onSendMessage={handleSendMessage} />
             </div>
           </div>
         </Card>
@@ -151,7 +76,7 @@ const Messages = () => {
 };
 
 // Данные чатов
-const chats = [
+const chats: ChatData[] = [
   {
     id: 1,
     name: "Николай Тихонов",
