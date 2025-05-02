@@ -53,26 +53,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				},
-				// Добавляем новые цвета для пастельного профиля
-				pastel: {
-					pink: '#FFD1DC',
-					'light-pink': '#FFEEF2',
-					'dark-pink': '#FFB6C1',
-					beige: '#F5E6CA',
-					'light-beige': '#FFF8E7',
-					'dark-beige': '#EDD9A3',
-					white: '#FFFFFF',
-					gray: '#F0F0F0'
+				melody: {
+					pink: '#f9a8a8',
+					'light-pink': '#FFE6E6',
+					olive: '#c6c15f',
+					yellow: '#D4CA3A',
+					background: '#fff0ee'
 				}
 			},
 			borderRadius: {
@@ -110,9 +96,6 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'float': 'float 5s ease-in-out infinite'
-			},
-			fontFamily: {
-				'pastel': ['Comic Sans MS', 'cursive', 'sans-serif']
 			}
 		}
 	},

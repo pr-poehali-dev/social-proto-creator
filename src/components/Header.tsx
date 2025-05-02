@@ -1,6 +1,7 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
-import { Home, User, MessageSquare, Heart, Star } from "lucide-react";
+import { Home, User, MessageSquare, Heart, Star, Music } from "lucide-react";
 
 const Header = () => {
   return (
@@ -28,9 +29,13 @@ const Header = () => {
               <Heart size={18} />
               <span>Знакомства</span>
             </Link>
-            <Link to="/pastel-profile" className="flex items-center space-x-1 text-pastel-pink font-medium">
+            <Link to="/pastel-profile" className="flex items-center space-x-1 text-gray-600 hover:text-primary transition-colors">
               <Star size={18} />
               <span>Пастельный профиль</span>
+            </Link>
+            <Link to="/melody-profile" className="flex items-center space-x-1 text-melody-pink font-medium">
+              <Music size={18} />
+              <span>Melody Profile</span>
             </Link>
           </div>
           
@@ -47,8 +52,11 @@ const Header = () => {
             <Link to="/dating" className="text-gray-600">
               <Heart size={20} />
             </Link>
-            <Link to="/pastel-profile" className="text-pastel-pink">
+            <Link to="/pastel-profile" className="text-gray-600">
               <Star size={20} />
+            </Link>
+            <Link to="/melody-profile" className="text-melody-pink">
+              <Music size={20} />
             </Link>
           </div>
         </nav>

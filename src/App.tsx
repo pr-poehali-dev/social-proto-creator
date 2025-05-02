@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
 import Dating from "./pages/Dating";
 import PastelProfile from "./pages/PastelProfile";
+import MelodyProfile from "./pages/MelodyProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/messages" element={<Messages />} />
           <Route path="/dating" element={<Dating />} />
           <Route path="/pastel-profile" element={<PastelProfile />} />
+          <Route path="/melody-profile" element={<MelodyProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

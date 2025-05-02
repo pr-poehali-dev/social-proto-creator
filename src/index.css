@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -100,43 +94,44 @@
   }
 }
 
-.pastel-card {
-  @apply rounded-3xl shadow-md overflow-hidden;
-  position: relative;
+:root {
+  --melody-pink: #f9a8a8;
+  --melody-light-pink: #FFE6E6;
+  --melody-olive: #c6c15f;
+  --melody-yellow: #D4CA3A;
+  --melody-background: #fff0ee;
 }
 
-.pastel-card::before {
-  content: '';
-  @apply absolute inset-0 rounded-3xl;
-  background: linear-gradient(to bottom right, #FFF8E7, #FFD1DC);
-  z-index: -1;
-}
-
-.pastel-badge {
+.melody-badge {
   @apply rounded-full text-sm px-3 py-1 font-medium;
-  background: linear-gradient(to right, #FFD1DC, #F5E6CA);
+  background: var(--melody-pink);
+  color: white;
 }
 
-.pastel-button {
-  @apply rounded-full px-5 py-2 font-medium transition-transform transform hover:scale-105;
-  background: linear-gradient(to right, #FFD1DC, #F5E6CA);
+.melody-card {
+  @apply rounded-3xl shadow-sm overflow-hidden bg-white;
 }
 
-.star-shape {
-  clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
-    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
-  );
+.olive-card {
+  @apply rounded-3xl shadow-sm overflow-hidden;
+  background: var(--melody-olive);
+  color: white;
 }
 
-.zodiac-shape {
-  clip-path: circle(50% at 50% 50%);
+.hexagon-clip {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
-.round-img {
+.rounded-bubble {
   @apply rounded-3xl overflow-hidden;
 }
 
-.bubble-img {
+.circle-bubble {
   clip-path: circle(50% at 50% 50%);
+}
+
+.love-circle {
+  @apply rounded-full bg-melody-pink text-white flex items-center justify-center font-bold;
+  width: 40px;
+  height: 40px;
 }
