@@ -59,6 +59,13 @@ export default {
 					olive: '#c6c15f',
 					yellow: '#D4CA3A',
 					background: '#fff0ee'
+				},
+				pastel: {
+					pink: '#f9a8a8',
+					'dark-pink': '#e56b6f',
+					'light-pink': '#ffe5e5',
+					beige: '#ddbea9',
+					'light-beige': '#ffe8d6'
 				}
 			},
 			borderRadius: {
